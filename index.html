@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en" class="light"> <!-- Default to light mode -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>habibiai</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="asset/icon/icon.png" rel="icon">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for theme change */
+        }
+        /* Light mode styles */
+        body {
+            background-color: #f3f4f6; /* Light gray background */
+            color: #333; /* Dark text color */
+        }
+        .light .bg-white { background-color: #ffffff; }
+        .light .bg-gray-50 { background-color: #f9fafb; }
+        .light .bg-gradient-to-br { background-image: linear-gradient(to bottom right, #f3f4f6, #e5e7eb); }
+        .light .bg-gradient-to-tr { background-image: linear-gradient(to top right, #4f46e5, #9333ea); }
+        .light .text-gray-700 { color: #4b5563; }
+        .light .text-gray-800 { color: #1f2937; }
+        .light .border-gray-200 { border-color: #e5e7eb; }
+
+        /* Dark mode styles */
+        html.dark body {
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text color */
+        }
+        html.dark .bg-white { background-color: #2d3748; } /* Darker background for light elements */
+        html.dark .bg-gray-50 { background-color: #2d3748; } /* Darker background for light elements */
+        html.dark .bg-gradient-to-br { background-image: linear-gradient(to bottom right, #1a202c, #2d3748); }
+        html.dark .bg-gradient-to-tr { background-image: linear-gradient(to top right, #6a5acd, #a06cd5); } /* Slightly lighter gradient for dark mode */
+        html.dark .text-gray-700 { color: #cbd5e0; }
+        html.dark .text-gray-800 { color: #e2e8f0; }
+        html.dark .border-gray-200 { border-color: #4a5568; }
+        html.dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.24); } /* Darker shadows */
+        html.dark .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.16); } /* Darker shadows */
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track-color, #e0e0e0);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb-color, #888);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover-color, #555);
+        }
+
+        /* Variables for scrollbar colors based on theme */
+        html.light {
+            --scrollbar-track-color: #e0e0e0;
+            --scrollbar-thumb-color: #888;
+            --scrollbar-thumb-hover-color: #555;
+        }
+        html.dark {
+            --scrollbar-track-color: #333;
+            --scrollbar-thumb-color: #555;
+            --scrollbar-thumb-hover-color: #777;
+        }
+
+        /* Removed Navbar opacity transition styles as requested */
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header and Navigation -->
+    <header id="main-header" class="bg-white shadow-sm py-4 fixed w-full z-10 top-0">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-indigo-600 rounded-lg p-2 hover:text-indigo-700 transition duration-300">HabibiAi.</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#home" class="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2 transition duration-300">Home</a>
+                <a href="#about" class="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2 transition duration-300">About</a>
+                <a href="#skills" class="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2 transition duration-300">Skills</a>
+                <a href="#projects" class="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2 transition duration-300">Projects</a>
+                <a href="#contact" class="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2 transition duration-300">Contact</a>
+                <!-- Dark Mode Toggle -->
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300">
+                    <!-- Matahari (Sun) Icon -->
+                    <svg id="sun-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 110-10 5 5 0 010 10zm-7 2h14v2H5zm1.62-10.42l-.707-.707L4.343 6.343l.707.707zm11.76-1.42l.707-.707 1.414 1.414-.707.707zm-11.76 6.84l-.707.707-1.414-1.414.707-.707zM18 12h2v-2h-2v2zm-6-8V2h-2v2h2zm-7 5.04l-.707-.707-1.414 1.414.707.707zm11.76 1.42l.707-.707 1.414-1.414-.707-.707zM12 21v-2h2v2h-2zm-7-5.04l-.707.707-1.414-1.414.707-.707zM18 12h2v-2h-2v2zM12 21v-2h2v2h-2zm-7-5.04l-.707.707-1.414-1.414.707-.707z"></path>
+                    </svg>
+                    <!-- Moon Icon -->
+                    <svg id="moon-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center md:hidden">
+                <button id="theme-toggle-mobile" class="mr-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300">
+                    <!-- Matahari (Sun) Icon for Mobile -->
+                    <svg id="sun-icon-mobile" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 110-10 5 5 0 010 10zm-7 2h14v2H5zm1.62-10.42l-.707-.707L4.343 6.343l.707.707zm11.76-1.42l.707-.707 1.414 1.414-.707.707zm-11.76 6.84l-.707.707-1.414-1.414.707-.707zM18 12h2v-2h-2v2zm-6-8V2h-2v2h2zm-7 5.04l-.707-.707-1.414 1.414.707.707zm11.76 1.42l.707-.707 1.414-1.414-.707-.707zM12 21v-2h2v2h-2zm-7-5.04l-.707.707-1.414-1.414.707-.707zM18 12h2v-2h-2v2zM12 21v-2h2v2h-2zm-7-5.04l-.707.707-1.414-1.414.707-.707z"></path>
+                    </svg>
+                    <!-- Moon Icon for Mobile -->
+                    <svg id="moon-icon-mobile" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="focus:outline-none">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu-overlay" class="hidden md:hidden fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity duration-300 ease-in-out opacity-0"></div>
+        <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white dark:bg-gray-900 z-30 flex flex-col items-center justify-start pt-24 space-y-6 transform transition-transform duration-300 ease-in-out translate-x-full">
+            <button id="close-menu-button" class="absolute top-4 right-4 focus:outline-none">
+                <svg class="w-8 h-8 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <a href="#home" class="text-gray-800 dark:text-gray-200 text-2xl hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-3 rounded-lg w-full text-center">Home</a>
+            <a href="#about" class="text-gray-800 dark:text-gray-200 text-2xl hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-3 rounded-lg w-full text-center">About</a>
+            <a href="#skills" class="text-gray-800 dark:text-gray-200 text-2xl hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-3 rounded-lg w-full text-center">Skills</a>
+            <a href="#projects" class="text-gray-800 dark:text-gray-200 text-2xl hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-3 rounded-lg w-full text-center">Projects</a>
+            <a href="#contact" class="text-gray-800 dark:text-gray-200 text-2xl hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-3 rounded-lg w-full text-center">Contact</a>
+        </div>
+    </header>
+
+    <main class="pt-20"> <!-- Added padding-top to account for fixed header -->
+        <!-- Hero Section -->
+        <section id="home" class="relative bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-20 md:py-32 flex items-center min-h-screen">
+            <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center md:justify-between text-center md:text-left gap-8">
+                <!-- Image content is now first on mobile by default flex-col -->
+                <div class="md:w-1/3 flex justify-center animate-fade-in-right">
+                    <img src="asset/img/profil/prof.png" alt="Foto Profil" class="rounded-full w-48 h-48 md:w-80 md:h-80 object-cover border-4 border-white shadow-xl">
+                </div>
+                <!-- Text content is now second on mobile -->
+                <div class="md:w-1/2 mt-8 md:mt-0">
+                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 animate-fade-in-down">Hai, saya Ahmad Habibi</h1>
+                    <p class="text-xl md:text-2xl mb-6 opacity-90 animate-fade-in-up">seorang pengembang sisitem informasi yang bersemangat menciptakan pengalaman digital yang berdampak.</p>
+                    <a href="#projects" class="inline-block bg-white text-indigo-600 font-semibold px-8 py-4 rounded-full shadow-lg hover:bg-gray-100 transform hover:scale-105 transition duration-300 animate-zoom-in">Lihat Karya Saya</a>
+                </div>
+            </div>
+            <!-- Simple CSS Animations -->
+            <style>
+                @keyframes fadeInDown {
+                    from { opacity: 0; transform: translateY(-20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes fadeInUp {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes fadeInRight {
+                    from { opacity: 0; transform: translateX(20px); }
+                    to { opacity: 1; transform: translateX(0); }
+                }
+                @keyframes zoomIn {
+                    from { opacity: 0; transform: scale(0.8); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+                .animate-fade-in-down { animation: fadeInDown 1s ease-out; }
+                .animate-fade-in-up { animation: fadeInUp 1s ease-out 0.3s backwards; }
+                .animate-fade-in-right { animation: fadeInRight 1s ease-out 0.6s backwards; }
+                .animate-zoom-in { animation: zoomIn 0.8s ease-out 0.9s backwards; }
+            </style>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 md:py-24 bg-white dark:bg-gray-800">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-800 dark:text-gray-100">Tentang Saya</h2>
+                <div class="max-w-3xl mx-auto bg-gray-50 dark:bg-gray-700 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-600">
+                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-4">
+                        Halo! Saya Ahmad Habibi, yang berbasis di Tulungagung, Jawa Timur. Saya mengkhususkan diri dalam media dan sistem informasi.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-4">
+                        Perjalanan saya di dunia teknologi dimulai dari minat saya terhadap perkembangan teknologi moderen. Sejak itu, saya telah mengasah keterampilan saya dalam berbagai teknologi, selalu bersemangat untuk belajar dan beradaptasi dengan tantangan baru.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                        Saat tidak coding, Anda dapat menemukan saya [sebutkan hobi, mis. mendaki, membaca, menjelajahi kedai kopi baru]. Saya percaya pada pembelajaran berkelanjutan dan memanfaatkan teknologi untuk memecahkan masalah dunia nyata. Mari terhubung dan membangun sesuatu yang menakjubkan bersama!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-16 md:py-24 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-800 dark:text-gray-100">Keterampilan Saya</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                    <!-- Skill Card 1: HTML -->
+                    <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <svg class="w-12 h-12 text-orange-600 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 17.5l-6.1-2.2-.4-5.3h13l-.4 5.3L12 17.5zM4 3l.8 9.5L12 21l7.2-8.5L20 3H4z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">HTML</h3>
+                    </div>
+                    <!-- Skill Card 2: CSS -->
+                    <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <svg class="w-12 h-12 text-blue-600 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 17.5l-6.1-2.2-.4-5.3h13l-.4 5.3L12 17.5zM4 3l.8 9.5L12 21l7.2-8.5L20 3H4z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">CSS</h3>
+                    </div>
+                    <!-- Skill Card 3: Canva -->
+                    <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <svg class="w-12 h-12 text-purple-600 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                            <circle cx="12" cy="12" r="3" fill="currentColor"></circle>
+                            <path d="M16 8L8 16M16 16L8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Canva</h3>
+                    </div>
+                    <!-- Skill Card 4: Power Point -->
+                    <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <svg class="w-12 h-12 text-red-700 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 16h-2v-4h2v4zm4-4h-2v4h2v-4zm-4-4h-2v4h2v-4zm4 0h-2v4h2v-4zM7 7h10v2H7V7z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Power Point</h3>
+                    </div>
+                    <!-- Skill Card 5: Excel -->
+                    <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <svg class="w-12 h-12 text-green-700 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 10h-2v2h-2v-2H9v-2h2V9h2v2h2v2z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Excel</h3>
+                    </div>
+                    <!-- Skill Card 6: Word -->
+                    <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <svg class="w-12 h-12 text-blue-700 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 18H7V6h2v12zm4 0h-2V6h2v12zm4 0h-2V6h2v12z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Word</h3>
+                    </div>
+                     <!-- Skill Card 7: Outlook -->
+                    <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <svg class="w-12 h-12 text-blue-800 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Outlook</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-16 md:py-24 bg-white dark:bg-gray-800">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-800 dark:text-gray-100">Mini Project</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project Card 1 -->
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <img src="asset/project/p1.png" alt="Project 1" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">Toko Online</h3>
+                            <p class="text-gray-700 dark:text-gray-300 mb-4">Website Toko Bunga mini yang terintegrasi dengan Whatsapp, jadi bisa langsung komunikasi dengan admin toko, website ini masih dalam tahap pengembangan.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">HTML</span>
+                                <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">CSS</span>
+                                <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">JavaScript</span>
+                            </div>
+                            <div class="flex space-x-4">
+                                <a href="https://habibimdf.github.io/BEF-Bucket/" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 flex items-center">
+                                    Demo Langsung
+                                </a>
+                                <a href="#" target="_blank" class="text-gray-600 hover:text-gray-800 font-medium transition duration-300 flex items-center">
+                                    <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.835 2.809 1.305 3.493.998.108-.776.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.118-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.3-.854 3.3-.854.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.563 22.092 24 17.592 24 12c0-6.627-5.373-12-12-12z"></path>
+                                    </svg>
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2 -->
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <img src="asset/project/p2.png" alt="Project 2" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">Website Portofolio</h3>
+                            <p class="text-gray-700 dark:text-gray-300 mb-4">Website ini menampilkan portofolio singkat dan juga langsung berintegrasi dengan whatsapp.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">HTML</span>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">CSS</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">JavaScript</span>
+                            </div>
+                            <div class="flex space-x-4">
+                                <a href="#home" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 flex items-center">
+                                    Demo Langsung
+                                </a>
+                                <a href="#" target="_blank" class="text-gray-600 hover:text-gray-800 font-medium transition duration-300 flex items-center">
+                                    <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.835 2.809 1.305 3.493.998.108-.776.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.118-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.3-.854 3.3-.854.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.563 22.092 24 17.592 24 12c0-6.627-5.373-12-12-12z"></path>
+                                    </svg>
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3 -->
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition duration-300 border border-gray-200 dark:border-gray-600">
+                        <img src="asset/project/p3.png" alt="Project 3" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">Website Company Profile</h3>
+                            <p class="text-gray-700 dark:text-gray-300 mb-4">Menampilkan profil perusahaan dan produk perusahaan, website ini langsung terinegrasi dengan berbagai media sosial perusahaan.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">HTML</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">CSS</span>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">JavaScript</span>
+                            </div>
+                            <div class="flex space-x-4">
+                                <a href="https://sens-perfume.vercel.app/" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 flex items-center">
+                                    Demo Langsung
+                                </a>
+                                <a href="#" target="_blank" class="text-gray-600 hover:text-gray-800 font-medium transition duration-300 flex items-center">
+                                    <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.835 2.809 1.305 3.493.998.108-.776.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.118-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.3-.854 3.3-.854.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.563 22.092 24 17.592 24 12c0-6.627-5.373-12-12-12z"></path>
+                                    </svg>
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 md:py-24 bg-gradient-to-tr from-indigo-500 to-purple-600 dark:from-indigo-800 dark:to-purple-900 text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-10">Hubungi Saya</h2>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">Saya selalu terbuka untuk peluang dan kolaborasi baru. Jangan ragu untuk menghubungi!</p>
+                <div class="max-w-xl mx-auto bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg text-gray-800 dark:text-gray-100">
+                    <form id="contact-form" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-left text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Nama</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white dark:bg-gray-600 dark:text-gray-100" placeholder="Nama Anda" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-left text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white dark:bg-gray-600 dark:text-gray-100" placeholder="emailanda@contoh.com" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-left text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Pesan</label>
+                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white dark:bg-gray-600 dark:text-gray-100" placeholder="Pesan Anda..." required></textarea>
+                        </div>
+                        <button type="submit" id="submit-button" class="w-full bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transform hover:scale-105 transition duration-300">
+                            Kirim Pesan via WhatsApp
+                            <span id="loading-spinner" class="ml-2 hidden">
+                                <svg class="animate-spin h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </form>
+                    <div id="form-message" class="mt-4 text-center font-semibold hidden"></div>
+                </div>
+                <div class="mt-12 flex justify-center space-x-6">
+                    <a href="mailto:ahmadhabibi130301@gmail.com" class="text-white hover:text-gray-200 transition duration-300">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/ahmad-habibi-6869061a7" target="_blank" class="text-white hover:text-gray-200 transition duration-300">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+                    </a>
+                    <a href="https://github.com/habibimdf" target="_blank" class="text-white hover:text-gray-200 transition duration-300">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.835 2.809 1.305 3.493.998.108-.776.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.118-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.3-.854 3.3-.854.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.563 22.092 24 17.592 24 12c0-6.627-5.373-12-12-12z"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top-btn" class="fixed bottom-6 right-6 p-3 bg-indigo-600 text-white rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500 hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 habibiai. Semua hak dilindungi undang-undang.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#home" class="hover:text-indigo-400 transition duration-300">Beranda</a>
+                <a href="#about" class="hover:text-indigo-400 transition duration-300">Tentang</a>
+                <a href="#projects" class="hover:text-indigo-400 transition duration-300">Proyek</a>
+                <a href="#contact" class="hover:text-indigo-400 transition duration-300">Kontak</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const closeMenuButton = document.getElementById('close-menu-button');
+
+        function openMobileMenu() {
+            mobileMenuOverlay.classList.remove('hidden');
+            mobileMenu.classList.remove('translate-x-full');
+            // Gunakan timeout untuk memastikan transisi terjadi setelah properti display diubah
+            setTimeout(() => {
+                mobileMenuOverlay.classList.remove('opacity-0');
+            }, 10);
+            document.body.style.overflow = 'hidden'; // Mencegah background scrolling
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('translate-x-full');
+            mobileMenuOverlay.classList.add('opacity-0');
+            document.body.style.overflow = ''; // Mengembalikan scrolling
+            // Sembunyikan overlay setelah transisi selesai
+            setTimeout(() => {
+                mobileMenuOverlay.classList.add('hidden');
+            }, 300); // Sesuaikan dengan durasi transisi
+        }
+
+        mobileMenuButton.addEventListener('click', openMobileMenu);
+        closeMenuButton.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+        // Tutup menu mobile ketika link di-klik
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Dark/Light Mode Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIconMobile = document.getElementById('sun-icon-mobile');
+        const moonIconMobile = document.getElementById('moon-icon-mobile');
+        const htmlElement = document.documentElement; // Menggunakan document.documentElement untuk kelas 'dark'
+
+        // Function to set theme
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                htmlElement.classList.remove('light');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+                sunIconMobile.classList.add('hidden');
+                moonIconMobile.classList.remove('hidden');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+                sunIconMobile.classList.remove('hidden');
+                moonIconMobile.classList.add('hidden');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Check for saved theme preference or system preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light'); // Default to light if no preference found
+        }
+
+        // Toggle theme on button click
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+
+        themeToggleMobileBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+
+        // Handle form submission to open WhatsApp chat
+        const contactForm = document.getElementById('contact-form');
+        const formMessage = document.getElementById('form-message');
+        const submitButton = document.getElementById('submit-button');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah pengiriman formulir default
+
+            // Sembunyikan pesan sebelumnya dan tampilkan spinner (untuk simulasi, ini akan cepat)
+            formMessage.classList.add('hidden');
+            formMessage.textContent = '';
+            submitButton.disabled = true; // Nonaktifkan tombol saat mengirim
+            loadingSpinner.classList.remove('hidden'); // Tampilkan spinner
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Ganti ini dengan nomor telepon WhatsApp Anda, termasuk kode negara tanpa '+' atau '00'
+            const whatsappPhoneNumber = '+6282235208332'; // Contoh: +62 812 3456 7890
+
+            // Buat pesan yang sudah terisi sebelumnya
+            const preFilledMessage = `Halo, saya ${name} (${email}). Saya ingin menghubungi Anda tentang:\n\n${message}`;
+            const encodedMessage = encodeURIComponent(preFilledMessage);
+
+            // Buat URL WhatsApp
+            const whatsappUrl = `https://wa.me/${whatsappPhoneNumber}?text=${encodedMessage}`;
+
+            // Simulasi penundaan untuk spinner
+            setTimeout(() => {
+                loadingSpinner.classList.add('hidden'); // Sembunyikan spinner
+                submitButton.disabled = false; // Aktifkan kembali tombol
+
+                // Buka WhatsApp di tab/jendela baru
+                window.open(whatsappUrl, '_blank');
+
+                formMessage.textContent = 'Membuka WhatsApp... (Pesan Anda sudah terisi di chat WhatsApp).';
+                formMessage.classList.remove('text-red-600');
+                formMessage.classList.add('text-green-600');
+                formMessage.classList.remove('hidden');
+
+                contactForm.reset(); // Kosongkan formulir
+
+                setTimeout(() => {
+                    formMessage.classList.add('hidden');
+                }, 5000); // Sembunyikan pesan setelah 5 detik
+            }, 1000); // Simulasi penundaan 1 detik
+        });
+
+        // Scroll to Top Button Logic
+        const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Tampilkan tombol setelah menggulir 300px
+                scrollToTopBtn.classList.remove('hidden');
+            } else {
+                scrollToTopBtn.classList.add('hidden');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Gulir halus ke atas
+            });
+        });
+    </script>
+</body>
+</html>
